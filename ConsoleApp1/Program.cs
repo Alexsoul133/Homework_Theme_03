@@ -19,25 +19,101 @@ namespace ConsoleApp1
             // Делаем игру цикличной
             for (; ; )
             {
-                int userTry;
-                #region переменные игроков               
-                // Считывание имён до 8 игроков
+                // здесь нам не требуется большие числа длины int32, хватит и int16
+                short userTry;
+                short limitPlayer; // количество игроков
+
+                #region переменные игроков       
+
+                // присваем пустое значение для последущей операции сравнения
+                string user1 = ""; // можно поиграть и с самим с собой, почему бы и нет
+                string user2 = "";
+                string user3 = "";
+                string user4 = "";
+                string user5 = "";
+                string user6 = "";
+                string user7 = "";
+                string user8 = ""; // игра будет поддерживать до 8 игроков
+
+                Console.WriteLine("Введите количество игроков от 1 до 8");
+                while (true)
+                {
+                    limitPlayer = Convert.ToInt16(Console.ReadLine()); //считываем строку и преобразуем его в int16
+                    if (limitPlayer >8 || limitPlayer < 1)
+                    {
+                        Console.WriteLine("неверное число");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                #region Считывание имён до 8 игроков
+
+                // это неочень красивая конструкция, но мы же ещё не дошли до массивов
+                while (user1 == "") //имя не может быть пустым, запрашиваем пока не будет введён правильный вариант
+                {
                     Console.WriteLine("Игрок1 введи свой никнейм");
-                    string user1 = Console.ReadLine();
+                    user1 = Console.ReadLine();
+                }
+                if (limitPlayer >1)
+                while (user2 == "")
+                {
                     Console.WriteLine("Игрок2 введи свой никнейм");
-                    string user2 = Console.ReadLine();
-                    Console.WriteLine("Игрок3 введи свой никнейм");
-                    string user3 = Console.ReadLine();
-                    Console.WriteLine("Игрок4 введи свой никнейм");
-                    string user4 = Console.ReadLine();
-                    Console.WriteLine("Игрок5 введи свой никнейм");
-                    string user5 = Console.ReadLine();
-                    Console.WriteLine("Игрок6 введи свой никнейм");
-                    string user6 = Console.ReadLine();
-                    Console.WriteLine("Игрок7 введи свой никнейм");
-                    string user7 = Console.ReadLine();
-                    Console.WriteLine("Игрок8 введи свой никнейм");
-                    string user8 = Console.ReadLine();
+                    user2 = Console.ReadLine();
+                }
+
+                if (limitPlayer > 2)
+                {
+                    while (user3 == "")
+                    {
+                        Console.WriteLine("Игрок3 введи свой никнейм");
+                        user3 = Console.ReadLine();
+                    }
+                }
+                if (limitPlayer > 3)
+                {
+                    while (user4 == "")
+                    {
+                        Console.WriteLine("Игрок4 введи свой никнейм");
+                        user4 = Console.ReadLine();
+                    }
+                }
+                if (limitPlayer > 4)
+                {
+                    while (user5 == "")
+                    {
+                        Console.WriteLine("Игрок5 введи свой никнейм");
+                        user5 = Console.ReadLine();
+                    }
+                }
+                if (limitPlayer > 5)
+                {
+                    while (user6 == "")
+                    {
+                        Console.WriteLine("Игрок6 введи свой никнейм");
+                        user6 = Console.ReadLine();
+                    }
+                }
+                if (limitPlayer > 6)
+                {
+                    while (user7 == "")
+                    {
+                        Console.WriteLine("Игрок7 введи свой никнейм");
+                        user7 = Console.ReadLine();
+                    }
+                }
+                if (limitPlayer > 7)
+                {
+                    while (user8 == "")
+                    {
+                        Console.WriteLine("Игрок8 введи свой никнейм");
+                        user8 = Console.ReadLine();
+                    }
+                }
+#endregion
+
                 #endregion
 
                 string currentUser = user1; //первый ходит игрок 1
@@ -90,7 +166,7 @@ namespace ConsoleApp1
                     //}
                     #endregion
 
-                    // Выбираем хода в зависимости от хода раунда
+                    // Выбираем игрока в зависимости от хода раунда
                     switch (i)
                     {
                         case 1:
@@ -121,12 +197,23 @@ namespace ConsoleApp1
 
 
                     Console.WriteLine($"Ход {currentUser}: ");
-                    userTry = Int32.Parse(Console.ReadLine());
+                    userTry = Int16.Parse(Console.ReadLine());
 
                     // По тз нужно разрешить только числа 1,2,3,4
                     if (userTry > 0 && userTry < 5)
                     {
-                        gamenumber -= userTry;
+
+                        if (currentUser.Contains("омпьютер"))
+                        {
+                            Random rand2 = new Random();
+                            int compNumber = rand2.Next(1, 3);
+                            gamenumber -= compNumber;
+                        }
+                        else
+                        {
+                            gamenumber -= userTry;
+                        }
+
                         // Если число равно целевому числу, то объявляем победителя и прерываем цикл
                         if (gamenumber == targetnumber)
                         {

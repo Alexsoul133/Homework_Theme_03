@@ -63,6 +63,8 @@ namespace ConsoleApp2
                         // По тз нужно разрешить только числа 1,2,3,4
                         if (userTry > 0 && userTry < 5)
                         {
+
+                            
                             gamenumber -= userTry;
                             // Если число стало 0, тообъявляем победителя и заканчиваем игру
                             if (gamenumber == 0)
