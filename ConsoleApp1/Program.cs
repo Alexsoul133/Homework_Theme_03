@@ -54,7 +54,7 @@ namespace ConsoleApp1
                 // это неочень красивая конструкция, но мы же ещё не дошли до массивов
                 while (user1 == "") //имя не может быть пустым, запрашиваем пока не будет введён правильный вариант
                 {
-                    Console.WriteLine("Игрок1 введи свой никнейм");
+                    Console.WriteLine("Компьютер будет играть за игрока, содержащий в нике слово (К)омпьютер\nИгрок1 введи свой никнейм");
                     user1 = Console.ReadLine();
                 }
                 if (limitPlayer >1)
@@ -140,10 +140,14 @@ namespace ConsoleApp1
                     else
                     {
                         break;
-                    }
-                    
+                    }                    
                 }
-                
+                // если рандомное число оказалось меньше числа для победы, то корректируем число
+                while (gamenumber <= targetnumber)
+                {
+                    gamenumber = rand.Next(r1, r2);
+                }
+
                 #region Процесс геймплея
                 // Начало геймплея, задаём i для подсчета хода игроков
                 for (int i = 1; ; i++)
@@ -195,24 +199,37 @@ namespace ConsoleApp1
                             break;
                     }
 
-
+                    
                     Console.WriteLine($"Ход {currentUser}: ");
-                    userTry = Int16.Parse(Console.ReadLine());
 
-                    // По тз нужно разрешить только числа 1,2,3,4
-                    if (userTry > 0 && userTry < 5)
+                    // если ник содержит сочетание букв "компьютер", то ходит бот
+                    if (currentUser.Contains("Компьютер") || currentUser.Contains("компьютер"))
                     {
-
-                        if (currentUser.Contains("омпьютер"))
-                        {
-                            Random rand2 = new Random();
-                            int compNumber = rand2.Next(1, 3);
-                            gamenumber -= compNumber;
-                        }
-                        else
+                        //Console.WriteLine("comp");
+                        Random rand2 = new Random();
+                        int compNumber = rand2.Next(1, 3);
+                        // делаем так чтобы компьютер случайно не проиграл
+                        while ((gamenumber - compNumber) < targetnumber)
+                            {
+                                compNumber = rand2.Next(1, 3);
+                            }                        
+                        gamenumber -= compNumber;
+                        Console.WriteLine(compNumber);
+                    }
+                    else
+                    {
+                        userTry = Int16.Parse(Console.ReadLine());
+                        // По тз нужно разрешить только числа 1,2,3,4
+                        if (userTry > 0 && userTry < 5)
                         {
                             gamenumber -= userTry;
                         }
+                        else
+                        {
+                            Console.WriteLine("Неверное число");
+                            i--; // откатываем раунд чтобы текущий игрок повторил ход
+                        }
+                    }
 
                         // Если число равно целевому числу, то объявляем победителя и прерываем цикл
                         if (gamenumber == targetnumber)
@@ -220,15 +237,10 @@ namespace ConsoleApp1
                             Console.WriteLine($"{currentUser} победил");
                             break;
                         }
-                        //currentUser++;
+                                      
+                    
+                    if (i == limitPlayer) { i = 0; } // начинаем новый раунд. Здесь выставляем 0 т.к. в начале хода i++
                     }
-                    else
-                    {
-                        Console.WriteLine("Неверное число");
-                        i--; // откатываем раунд чтобы текущий игрок повторил ход
-                    }
-                    if (i == 8) { i = 1; } // начинаем новый раунд
-                }
                 #endregion
 
 
